@@ -1,0 +1,25 @@
+[package]
+name = "kairos-server"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+path = "src/lib.rs"
+
+[[bin]]
+path = "src/main.rs"
+name = "kairos-server"
+
+[dependencies]
+actix-web = "4"
+tokio = { version = "1.37.0", features = ["full"] }
+serde = { version = "1.0.199", features = ["derive"]}
+lazy_static = "1.5.0"
+actix-cors = "0.7.0"
+chrono = { version = "0.4.9", features = ["serde"] }
+sqlx = { version="0.8.2", features=["postgres","chrono", "runtime-tokio-rustls", "uuid"] }
+dotenv = "0.15.0"
+uuid = { version = "1.9.1", features = ["serde", "v4"] }
+
+[dev-dependencies] 
+reqwest = "0.12.7"
