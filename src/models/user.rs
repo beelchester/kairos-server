@@ -10,9 +10,8 @@ pub struct User {
     pub email: String,
     #[serde(rename = "oauthProvider")]
     pub oauth_provider: Option<OauthProvider>,
-    #[serde(rename = "oauthSub")]
-    pub oauth_sub: Option<String>,
     pub picture: Option<String>,
+    pub u_type: UserPlan,
 }
 
 impl User {
@@ -21,16 +20,16 @@ impl User {
         name: String,
         email: String,
         oauth_provider: Option<OauthProvider>,
-        oauth_sub: Option<String>,
         picture: Option<String>,
+        u_type: UserPlan,
     ) -> Self {
         Self {
             user_id,
             name,
             email,
             oauth_provider,
-            oauth_sub,
             picture,
+            u_type,
         }
     }
 }
@@ -62,4 +61,18 @@ pub struct LoginResponse {
     pub user: User,
     pub access_token: String,
     pub refresh_token: String,
+}
+
+#[derive(serde::Deserialize, serde::Serialize, Debug, Clone)]
+pub enum UserPlan {
+    #[allow(non_camel_case_types)]
+    free,
+    #[allow(non_camel_case_types)]
+    pro,
+}
+
+impl Display for UserPlan {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{:?}", self)
+    }
 }

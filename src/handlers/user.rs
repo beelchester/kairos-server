@@ -6,7 +6,7 @@ use crate::{
     config::UNIQUE_VIOLATION,
     db,
     handlers::{create_jwt_tokens, fetch_google_user_info},
-    models::{LoginResponse, OauthProvider, Project, User},
+    models::{LoginResponse, OauthProvider, Project, User, UserPlan},
 };
 
 /// Login user, create user if needed
@@ -30,8 +30,8 @@ pub async fn login_user(
                                 g_user.name.clone(),
                                 g_user.email.clone(),
                                 Some(OauthProvider::google),
-                                Some(g_user.sub.clone()),
                                 Some(g_user.picture),
+                                UserPlan::free,
                             );
 
                             let res = db::create_user(pool.clone(), user.clone()).await;

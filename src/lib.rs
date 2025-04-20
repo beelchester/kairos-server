@@ -12,8 +12,6 @@ mod handlers;
 mod models;
 mod routes;
 
-const UNIQUE_VIOLATION: &str = "23505";
-
 pub async fn run(listener: TcpListener) -> Result<(), std::io::Error> {
     dotenv().ok();
 

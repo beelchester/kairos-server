@@ -2,7 +2,7 @@ use actix_web::{web, HttpResponse, Responder};
 use sqlx::PgPool;
 use uuid::Uuid;
 
-use crate::{models::Project, UNIQUE_VIOLATION};
+use crate::{config::UNIQUE_VIOLATION, models::Project};
 
 /// Add project for the user
 pub async fn add_project(pool: web::Data<PgPool>, json: web::Json<Project>) -> impl Responder {

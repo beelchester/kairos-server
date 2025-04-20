@@ -5,7 +5,7 @@ use sqlx::PgPool;
 use std::env;
 use uuid::Uuid;
 
-use crate::models::{OauthProvider, Project, User};
+use crate::models::{OauthProvider, Project, User, UserPlan};
 
 pub async fn create_pool() -> PgPool {
     let database_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
@@ -28,14 +28,14 @@ pub async fn create_user(
     let oauth_provider = user.oauth_provider.map(|provider| provider.to_string());
 
     sqlx::query!(
-        "INSERT INTO users (user_id, name, email, oauth_provider, oauth_sub, picture)
+        "INSERT INTO users (user_id, name, email, oauth_provider, picture, user_type)
          VALUES ($1, $2, $3, $4, $5, $6)",
         user.user_id,
         user.name,
         user.email,
         oauth_provider,
-        user.oauth_sub,
         user.picture,
+        user.u_type.to_string()
     )
     .execute(&**pool)
     .await
@@ -43,7 +43,7 @@ pub async fn create_user(
 
 pub async fn get_user(pool: web::Data<PgPool>, user_email: String) -> Result<User, sqlx::Error> {
     let row = sqlx::query!(
-        "SELECT user_id, name, email, oauth_provider, oauth_sub, picture
+        "SELECT user_id, name, email, oauth_provider, picture
          FROM users
          WHERE email = $1",
         user_email
@@ -56,8 +56,8 @@ pub async fn get_user(pool: web::Data<PgPool>, user_email: String) -> Result<Use
             user.name,
             user.email,
             user.oauth_provider.map(|_p| OauthProvider::google),
-            user.oauth_sub,
             user.picture,
+            UserPlan::free,
         ))
     } else {
         Err(sqlx::Error::RowNotFound)
