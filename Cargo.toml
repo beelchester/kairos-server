@@ -20,6 +20,7 @@ chrono = { version = "0.4.9", features = ["serde"] }
 sqlx = { version="0.8.2", features=["postgres","chrono", "runtime-tokio-rustls", "uuid"] }
 dotenv = "0.15.0"
 uuid = { version = "1.9.1", features = ["serde", "v4"] }
-
-[dev-dependencies] 
-reqwest = "0.12.7"
+jsonwebtoken = "9.3.1"
+reqwest = { version= "0.12.12", features = ["json"] }
+serde_json = "1.0.140"
+bcrypt = "0.17.0"

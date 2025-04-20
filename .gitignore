@@ -1,3 +1,5 @@
 .sqlx
 debug
 .DS_Store
+supabase
+.env
