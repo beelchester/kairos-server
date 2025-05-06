@@ -1,5 +1,6 @@
 use std::fmt::Display;
 
+use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 #[derive(serde::Deserialize, serde::Serialize, Debug, Clone)]
@@ -34,7 +35,7 @@ impl User {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Deserialize, Serialize, Clone)]
 pub struct OauthUser {
     pub sub: String,
     pub name: String,
